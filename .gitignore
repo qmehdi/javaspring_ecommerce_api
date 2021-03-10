@@ -1,7 +1,8 @@
 **xml
 **idea
 **target
-
+starter_code/target*
+starter_code/target/*
 
 *.DS_Store
 **iml
