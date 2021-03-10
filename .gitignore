@@ -4,6 +4,7 @@
 starter_code/target*
 starter_code/target/*
 
+*.idea
 *.DS_Store
 **iml
 
