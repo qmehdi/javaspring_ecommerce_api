@@ -40,14 +40,25 @@ public class UserController {
 	}
 	
 	@PostMapping("/create")
-	public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
-		User user = new User();
-		user.setUsername(createUserRequest.getUsername());
-		Cart cart = new Cart();
-		cartRepository.save(cart);
-		user.setCart(cart);
-		userRepository.save(user);
-		return ResponseEntity.ok(user);
+	public ResponseEntity<?> createUser(@RequestBody CreateUserRequest createUserRequest) {
+		User user = userRepository.findByUsername(createUserRequest.getUsername());
+		if (user == null) {
+			user = new User();
+			if (createUserRequest.getPassword().length() < 8 || createUserRequest.getPassword().length() > 32) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password length should be between 8 to 32");
+			}
+			if (!createUserRequest.getPassword().equals(createUserRequest.getVerifyPassword())) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Passwords does not match");
+			}
+			user.setUsername(createUserRequest.getUsername());
+			user.setPassword(createUserRequest.getPassword());
+			Cart cart = new Cart();
+			cartRepository.save(cart);
+			user.setCart(cart);
+			userRepository.save(user);
+			return ResponseEntity.ok(user);
+		} else {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		}
 	}
-	
 }
