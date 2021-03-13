@@ -35,13 +35,26 @@ public class UserController {
 	@GetMapping("/id/{id}")
 	public ResponseEntity<User> findById(@PathVariable Long id) {
 
-		return ResponseEntity.of(userRepository.findById(id));
+		Optional<User> optionalUser = userRepository.findById(id);
+		if (optionalUser.isPresent()) {
+			User user = optionalUser.get();
+			if(user.getId() == id) {
+				return ResponseEntity.ok(user);
+			}
+		}
+		return ResponseEntity.notFound().build();
 	}
 	
 	@GetMapping("/{username}")
 	public ResponseEntity<User> findByUserName(@PathVariable String username) {
 		User user = userRepository.findByUsername(username);
-		return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
+
+		if (user == null) {
+			return ResponseEntity.notFound().build();
+		}
+		else {
+			return ResponseEntity.ok(user);
+		}
 	}
 	
 	@PostMapping("/create")

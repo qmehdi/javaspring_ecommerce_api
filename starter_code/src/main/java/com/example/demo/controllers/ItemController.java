@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,20 +22,37 @@ public class ItemController {
 	
 	@GetMapping
 	public ResponseEntity<List<Item>> getItems() {
-		return ResponseEntity.ok(itemRepository.findAll());
+
+		List<Item> items = itemRepository.findAll();
+		if (items.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		else {
+			return ResponseEntity.ok(items);
+		}
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Item> getItemById(@PathVariable Long id) {
-		return ResponseEntity.of(itemRepository.findById(id));
+		Optional<Item> optionalItem = itemRepository.findById(id);
+		if (optionalItem.isPresent()) {
+			Item item = optionalItem.get();
+			if (item.getId().equals(id)) {
+				return ResponseEntity.ok(item);
+			}
+		}
+		return ResponseEntity.notFound().build();
 	}
 	
 	@GetMapping("/name/{name}")
 	public ResponseEntity<List<Item>> getItemsByName(@PathVariable String name) {
 		List<Item> items = itemRepository.findByName(name);
-		return items == null || items.isEmpty() ? ResponseEntity.notFound().build()
-				: ResponseEntity.ok(items);
-			
+		if (items == null || items.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		else {
+			return ResponseEntity.ok(items);
+		}
 	}
 	
 }

@@ -39,8 +39,11 @@ public class CartController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Optional<Item> item = itemRepository.findById(request.getItemId());
-		if(!item.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		if(item.isPresent()) {
+			Item temp = item.get();
+			if (!temp.getId().equals(request.getItemId())) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
 		}
 		Cart cart = user.getCart();
 		IntStream.range(0, request.getQuantity())
@@ -56,8 +59,11 @@ public class CartController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Optional<Item> item = itemRepository.findById(request.getItemId());
-		if(!item.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		if(item.isPresent()) {
+			Item temp = item.get();
+			if (!temp.getId().equals(request.getItemId())) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
 		}
 		Cart cart = user.getCart();
 		IntStream.range(0, request.getQuantity())
