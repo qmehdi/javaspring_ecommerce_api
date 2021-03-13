@@ -18,14 +18,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -42,9 +40,18 @@ import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 // ####################
+import com.example.demo.controllers.TestCartController;
+import com.example.demo.controllers.TestItemController;
+import com.example.demo.controllers.TestOrderController;
+import com.example.demo.controllers.TestUserController;
+import com.example.demo.exceptions.TestExceptionHandler;
 
-@RunWith(MockitoJUnitRunner.class)
-@SpringBootTest
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+		TestCartController.class, TestItemController.class,
+		TestOrderController.class, TestUserController.class,
+		TestExceptionHandler.class
+})
 public class SareetaApplicationTests {
 
 	@Mock
