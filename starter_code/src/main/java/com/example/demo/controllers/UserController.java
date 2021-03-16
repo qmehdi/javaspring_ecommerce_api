@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +34,15 @@ public class UserController {
 	private PasswordEncoder passwordEncoder;
 
 	@GetMapping("/id/{id}")
-	public ResponseEntity<User> findById(@PathVariable Long id) {
+	public ResponseEntity<User> findById(@PathVariable Long id, Principal principal) {
 
 		Optional<User> optionalUser = userRepository.findById(id);
 		if (optionalUser.isPresent()) {
 			User user = optionalUser.get();
 			if(user.getId() == id) {
+				if(!user.getUsername().equals(principal.getName())) {
+					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+				}
 				return ResponseEntity.ok(user);
 			}
 		}
@@ -46,7 +50,10 @@ public class UserController {
 	}
 	
 	@GetMapping("/{username}")
-	public ResponseEntity<User> findByUserName(@PathVariable String username) {
+	public ResponseEntity<User> findByUserName(@PathVariable String username, Principal principal) {
+		if (!username.equals(principal.getName())) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
 		User user = userRepository.findByUsername(username);
 
 		if (user == null) {

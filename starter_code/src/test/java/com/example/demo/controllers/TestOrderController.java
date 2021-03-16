@@ -53,7 +53,7 @@ public class TestOrderController {
         UserOrder order = response.getBody();
         assertNotNull(order);
         User user = getUser();
-        assertEquals(order.getUser(), user);
+        assertEquals(order.getUser().getUsername(), user.getUsername());
 
     }
 
