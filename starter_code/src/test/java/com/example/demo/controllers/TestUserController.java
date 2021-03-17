@@ -76,9 +76,9 @@ public class TestUserController {
     @Test
     public void negativeFindByUserIdTestNotFound() {
 
-        // given
-        when(principal.getName()).thenReturn("username123");
-        when(userRepository.findById(getUser().getId())).thenReturn(java.util.Optional.of(getUser()));
+//        // given
+//        when(principal.getName()).thenReturn("username123");
+//        when(userRepository.findById(getUser().getId())).thenReturn(java.util.Optional.of(getUser()));
 
         // when
         ResponseEntity<User> response = userController.findById(2L, principal);
@@ -112,7 +112,7 @@ public class TestUserController {
 
         // given
         when(principal.getName()).thenReturn("username123");
-        when(userRepository.findByUsername("username123")).thenReturn(getUser());
+//        when(userRepository.findByUsername("username123")).thenReturn(getUser());
 
         // when
         ResponseEntity<User> response = userController.findByUserName("username321", principal);
@@ -129,7 +129,7 @@ public class TestUserController {
 
         // given
         when(principal.getName()).thenReturn("username321");
-        when(userRepository.findByUsername("username123")).thenReturn(getUser());
+//        when(userRepository.findByUsername("username123")).thenReturn(getUser());
 
         // when
         ResponseEntity<User> response = userController.findByUserName("username321", principal);
