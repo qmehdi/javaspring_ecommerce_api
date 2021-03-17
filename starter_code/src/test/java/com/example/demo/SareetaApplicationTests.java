@@ -1,16 +1,21 @@
 package com.example.demo;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.runners.Suite;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+// ####################
+import com.example.demo.controllers.TestCartController;
+import com.example.demo.controllers.TestItemController;
+import com.example.demo.controllers.TestOrderController;
+import com.example.demo.controllers.TestUserController;
+import com.example.demo.exceptions.TestExceptionHandler;
+
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+		TestCartController.class, TestItemController.class,
+		TestOrderController.class, TestUserController.class,
+		TestExceptionHandler.class
+})
 public class SareetaApplicationTests {
-
-	@Test
-	public void contextLoads() {
-	}
 
 }
